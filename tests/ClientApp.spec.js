@@ -80,7 +80,7 @@ test('Client App Login', async ({page}) => {
     //After viewing the order summary, again verify if order id displayed there is the same
     const orderIdDetails = await page.locator(".-main").textContent();
     expect(orderId.includes(orderIdDetails)).toBeTruthy();
-
+    //end of code
     
     
 
