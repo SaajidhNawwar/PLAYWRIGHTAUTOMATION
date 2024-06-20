@@ -1,7 +1,7 @@
 const {test,expect} = require('@playwright/test');
 const { text } = require('stream/consumers');
 
-test('Browser Context Playwright test', async ({browser})=>
+test('Browser Context-Validating test', async ({browser})=>
 {
     //chrome - adding plugins/cookies
     const context = await browser.newContext();
