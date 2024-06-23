@@ -1,11 +1,20 @@
 const {test,expect} = require('@playwright/test');
 const { text } = require('stream/consumers');
 
-test('Browser Context-Validating test', async ({browser})=>
+test.only('Browser Context-Validating test', async ({browser})=>
 {
     //chrome - adding plugins/cookies
     const context = await browser.newContext();
     const page = await context.newPage();
+
+    //  11 Lesson. From networking  //
+    // abort a css file,image
+    //page.route('**/*.css',route=>route.abort());
+    //page.route('**/*.{jpg,jpeg,png}',route=>route.abort());
+    page.on('request',request=>console.log(request.url())); //print all the request calls
+    page.on('response',response=>console.log(response.url(),response.status()));    //print all response calls
+    //  END //
+
     await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
 
     //get the page title
