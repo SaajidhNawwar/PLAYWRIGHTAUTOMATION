@@ -7,9 +7,7 @@ for(const data of dataset)
 {
 test(`Client App Login for ${data.productName}`, async ({page}) => {
     const poManager = new POManager(page);
-
-    const products = page.locator(".card-body");
-
+    
     const loginPage = poManager.getLoginPage();
     await loginPage.goTo();
     await loginPage.validLogin(data.username,data.password);
