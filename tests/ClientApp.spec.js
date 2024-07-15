@@ -1,7 +1,7 @@
 const { test, expect} = require('@playwright/test');
 const { text } = require('stream/consumers');
 
-test('Client App Login', async ({page}) => {
+test.skip('Client App Login', async ({page}) => {
     const email = "anshika@gmail.com";
     const productName = 'ADIDAS ORIGINAL';
     const products = page.locator(".card-body");

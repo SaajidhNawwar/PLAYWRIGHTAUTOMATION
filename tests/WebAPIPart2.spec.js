@@ -97,7 +97,7 @@ test('Client App Login', async ({ }) => {
 
 });
 
-test('Test case 2', async () => {
+test('@API Test case 2', async () => {
     const page = await webContext.newPage();
     await page.goto("https://rahulshettyacademy.com/client");
 

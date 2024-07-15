@@ -1,4 +1,6 @@
 const {test,expect} = require('@playwright/test');
+//test.describe.configure({mode:'parallel'}); //run tests parallely from same file
+
 
 test("Popup Validations", async({page}) =>{
     await page.goto("https://rahulshettyacademy.com/AutomationPractice/");
@@ -31,7 +33,7 @@ test('Screenshot & Visual comparison', async({page})=>
     await expect(page.locator("#displayed-text")).toBeHidden();
 })
 
-test.only('Take screenshot and compare it in next test run', async({page}) =>
+test('Take screenshot and compare it in next test run', async({page}) =>
 {
     await page.goto("https://flightaware.com/");
     expect(await page.screenshot()).toMatchSnapshot('landing.png');

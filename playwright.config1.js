@@ -2,6 +2,8 @@ const { defineConfig, devices } = require('@playwright/test');
 
 module.exports = defineConfig({
   testDir: './tests',
+  retries : 1,     //retries for failed test cases
+  workers: 2,    //at a time,only 1 worker should run
 
   //Maximum time one test can run for
   timeout: 30*1000,

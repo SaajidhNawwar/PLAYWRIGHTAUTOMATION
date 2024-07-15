@@ -1,7 +1,7 @@
 const {test,expect} = require('@playwright/test');
 const { text } = require('stream/consumers');
 
-test.only('Browser Context-Validating test', async ({browser})=>
+test('Browser Context-Validating test', async ({browser})=>
 {
     //chrome - adding plugins/cookies
     const context = await browser.newContext();
@@ -59,7 +59,7 @@ test.only('Browser Context-Validating test', async ({browser})=>
 
 });
 
-test('Page Playwright test', async ({page})=>
+test('@Web Page Playwright test', async ({page})=>
 {
     //not adding any plugins or cookies. Just directly open up the page
     await page.goto("https://google.com");
@@ -67,7 +67,7 @@ test('Page Playwright test', async ({page})=>
 });
 
 //selecting dropdowns and radio buttons
-test('UI Controls', async ({page}) => {
+test('@Web UI Controls', async ({page}) => {
     await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
     const userName = page.locator('#username');
     const signIn = page.locator('#signInBtn');
