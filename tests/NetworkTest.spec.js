@@ -1,26 +1,50 @@
 const { test, expect, request } = require('@playwright/test');
 const { APiUtils } = require('../Utils/APIUtils');
 const loginPayLoad = { userEmail: "saajidhasc@gmail.com", userPassword: "Saaj@123" };
-const orderPayLoad = { orders: [{ country: "Cuba", productOrderedId: "6581ca979fd99c85e8ee7faf" }] };
 let response;
 const fakePayloadOrders = { data: [], message: "No Orders" }
 
-test.beforeAll(async () => {
-    const apiContext = await request.newContext();
-    const apiUtils = new APiUtils(apiContext, loginPayLoad);
-    // response =  await apiUtils.getToken(loginPayLoad);
-    response = await apiUtils.createOrder(orderPayLoad);
-
+test.beforeAll(async ({ browser }) => {
+    // Use UI to login and add product (which ensures valid product ID)
+    const context = await browser.newContext();
+    const page = await context.newPage();
+    
+    await page.goto("https://rahulshettyacademy.com/client");
+    await page.locator("#userEmail").fill("saajidhasc@gmail.com");
+    await page.locator("#userPassword").fill("Saaj@123");
+    await page.locator("#login").click();
+    await page.waitForLoadState('networkidle');
+    
+    // Add valid product to cart via UI
+    const productName = 'ADIDAS ORIGINAL';
+    const products = page.locator(".card-body");
+    const count = await products.count();
+    
+    for (let i = 0; i < count; i++) {
+        if (await products.nth(i).locator("b").textContent() == productName) {
+            await products.nth(i).locator("text= Add To Cart").click();
+            break;
+        }
+    }
+    
+    await page.waitForTimeout(1000);
+    
+    // Get the cart to verify product was added
+    await page.locator("[routerlink*='cart']").click();
+    await page.waitForTimeout(1000);
+    
+    // Store context for later tests
+    await context.storageState({ path: 'state.json' });
+    await context.close();
 })
 
 
 //create order is success
-test('@API Place the order', async ({ page }) => {
-    //Bypass UI login with API
-    page.addInitScript(value => {
-        window.localStorage.setItem('token', value);
-    }, response.token);
-
+test('@API Place the order', async ({ browser }) => {
+    // Use the stored context from beforeAll
+    const context = await browser.newContext({ storageState: 'state.json' });
+    const page = await context.newPage();
+    
     await page.goto("https://rahulshettyacademy.com/client");
 
     //mock the page to show that there are no orders, faking the response

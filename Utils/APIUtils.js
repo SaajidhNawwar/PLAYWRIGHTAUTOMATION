@@ -38,12 +38,30 @@ class APiUtils
             },
  
         })
-    const orderResponseJson =await orderResponse.json();
+    const orderResponseJson = await orderResponse.json();
     console.log(orderResponseJson);
+
+    // Check if orders array exists
+    if (!orderResponseJson.orders || orderResponseJson.orders.length === 0) {
+        throw new Error(`Order creation failed: ${orderResponseJson.message || 'Unknown error'}`);
+    }
+
     const orderId = orderResponseJson.orders[0];
     response.orderId = orderId;
  
     return response;
+    }
+
+    // Helper method to get valid product IDs
+    async getProducts() {
+        const token = await this.getToken();
+        const response = await this.apiContext.get("https://rahulshettyacademy.com/api/ecom/client/product-list", {
+            headers: {
+                'Authorization': token,
+                'Content-Type': 'application/json'
+            }
+        });
+        return await response.json();
     }
  
 }

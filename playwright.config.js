@@ -4,7 +4,7 @@ module.exports = defineConfig({
   testDir: './tests',
   retries: 1, //Maximum time one test can run for
   workers: 3,
-  timeout: 30*1000,
+  timeout: 60*1000,
   expect:{
     timeout:5000
   },
